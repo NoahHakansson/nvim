@@ -15,7 +15,7 @@ function M.config()
     autosave = true, -- automatically save session files when exiting Neovim
     should_autosave = function() -- function to determine if a session should be autosaved
       -- do not autosave if the current filetype is ""(empty buffer), NvimTree or alpha
-      if vim.bo.filetype == '' or vim.bo.filetype == 'NvimTree' or vim.bo.filetype == 'alpha' then
+      if vim.bo.filetype == '' or vim.bo.filetype == 'NvimTree' or vim.bo.filetype == 'alpha' or vim.bo.filetype == 'NeogitStatus' then
         return false
       end
       return true
