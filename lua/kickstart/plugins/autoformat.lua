@@ -82,9 +82,11 @@ return {
               return
             end
 
-            vim.lsp.buf.format({
-              async = false,
-              filter = require('utils.formatting').format_filter,
+            -- If no special case, then we can use conform to format
+            require('conform').format({
+              timeout_ms = 500,
+              bufnr = bufnr,
+              lsp_fallback = true,
             })
           end,
         })

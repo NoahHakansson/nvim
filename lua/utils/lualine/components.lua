@@ -109,6 +109,12 @@ return {
       local formatters = require('utils.none-ls.formatters')
       local supported_formatters = formatters.list_registered(buf_ft)
       vim.list_extend(buf_client_names, supported_formatters)
+      local conform_formatters = require('conform').list_formatters(0)
+      -- get formatter names
+      conform_formatters = vim.tbl_map(function(formatter)
+        return formatter.name
+      end, conform_formatters)
+      vim.list_extend(buf_client_names, conform_formatters)
 
       -- add linter
       local linters = require('utils.none-ls.linters')

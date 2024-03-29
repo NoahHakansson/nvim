@@ -1,6 +1,6 @@
 local M = {
   'ray-x/lsp_signature.nvim',
-  event = 'InsertEnter',
+  lazy = false,
 }
 
 function M.config()
