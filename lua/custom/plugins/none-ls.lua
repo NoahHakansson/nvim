@@ -17,30 +17,29 @@ function M.config()
     debug = false,
     sources = {
       -- Formatters
-      formatting.stylua,
-      formatting.prettier.with({
-        filetypes = {
-          'css',
-          'scss',
-          'less',
-          'html',
-          'json',
-          'jsonc',
-          'yaml',
-          'toml',
-          'markdown',
-          'markdown.mdx',
-          'graphql',
-          'handlebars',
-        },
-        -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
-      }),
+      -- formatting.prettier.with({
+      --   filetypes = {
+      --     'css',
+      --     'scss',
+      --     'less',
+      --     'html',
+      --     'json',
+      --     'jsonc',
+      --     'yaml',
+      --     'toml',
+      --     'markdown',
+      --     'markdown.mdx',
+      --     'graphql',
+      --     'handlebars',
+      --   },
+      --   -- extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
+      -- }),
 
       -- Linters / Diagnostics
 
       -- diagnostics.revive, -- Golang linter
-      diagnostics.yamllint,
-      diagnostics.zsh,
+      -- diagnostics.yamllint,
+      -- diagnostics.zsh,
 
       -- Code Actions
     },
