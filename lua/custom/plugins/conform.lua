@@ -9,6 +9,7 @@ function M.config()
     formatters_by_ft = {
       go = { 'goimports', 'gofmt' },
       lua = { 'stylua' },
+      sql = { 'sqlfmt' },
       -- Conform can also run multiple formatters sequentially
       python = { 'isort', 'black' },
       css = { { 'prettierd', 'prettier' } },

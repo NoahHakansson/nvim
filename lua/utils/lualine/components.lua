@@ -5,6 +5,7 @@
 local icons = require('utils.icons')
 local conditions = require('utils.lualine.conditions')
 local colors = require('utils.lualine.colors')
+local num = 0
 
 return {
   branch = {
@@ -120,6 +121,8 @@ return {
       local linters = require('utils.none-ls.linters')
       local supported_linters = linters.list_registered(buf_ft)
       vim.list_extend(buf_client_names, supported_linters)
+      local nvim_lint_linters = require('utils.linters').list_linters()
+      vim.list_extend(buf_client_names, nvim_lint_linters)
 
       local unique_client_names = vim.fn.uniq(buf_client_names)
 
