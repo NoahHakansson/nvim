@@ -101,15 +101,12 @@ return {
 
       -- add client
       for _, client in pairs(buf_clients) do
-        if client.name ~= 'null-ls' and client.name ~= 'copilot' then
+        if client.name ~= 'copilot' then
           table.insert(buf_client_names, client.name)
         end
       end
 
       -- add formatter
-      local formatters = require('utils.none-ls.formatters')
-      local supported_formatters = formatters.list_registered(buf_ft)
-      vim.list_extend(buf_client_names, supported_formatters)
       local conform_formatters = require('conform').list_formatters(0)
       -- get formatter names
       conform_formatters = vim.tbl_map(function(formatter)
@@ -118,9 +115,6 @@ return {
       vim.list_extend(buf_client_names, conform_formatters)
 
       -- add linter
-      local linters = require('utils.none-ls.linters')
-      local supported_linters = linters.list_registered(buf_ft)
-      vim.list_extend(buf_client_names, supported_linters)
       local nvim_lint_linters = require('utils.linters').list_linters()
       vim.list_extend(buf_client_names, nvim_lint_linters)
 
