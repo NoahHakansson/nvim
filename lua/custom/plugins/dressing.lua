@@ -75,7 +75,7 @@ function M.config()
       enabled = true,
 
       -- Priority list of preferred vim.select implementations
-      backend = { 'telescope', 'fzf_lua', 'fzf', 'builtin', 'nui' },
+      backend = { 'builtin', 'telescope', 'fzf_lua', 'fzf', 'nui' },
 
       -- Trim trailing `:` from prompt
       trim_prompt = true,
@@ -86,7 +86,13 @@ function M.config()
       telescope = nil,
 
       -- Used to override format_item. See :help dressing-format
-      format_item_override = {},
+      format_item_override = {
+        codeaction = function(action_tuple)
+          local title = action_tuple[2].title:gsub('\r\n', '\\r\\n')
+          local client = vim.lsp.get_client_by_id(action_tuple[1])
+          return string.format('%s\t[%s]', title:gsub('\n', '\\n'), client.name)
+        end,
+      },
 
       -- see :help dressing_get_config
       get_config = nil,
