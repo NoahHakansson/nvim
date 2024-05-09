@@ -39,6 +39,15 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
 
+        -- Create a command `:Format` local to the LSP buffer
+        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+          require('conform').format({
+            timeout_ms = 500,
+            bufnr = bufnr,
+            lsp_fallback = true,
+          })
+        end, { desc = 'Format current buffer with Conform.nvim' })
+
         -- (Special case, has no 'format server_capabilities)
         -- Set eslint LSP client to format on save.
         if client.name == 'eslint' then
@@ -52,17 +61,6 @@ return {
               vim.cmd('EslintFixAll')
             end,
           })
-        end
-
-        -- Only attach to clients that support document formatting
-        if not client.server_capabilities.documentFormattingProvider then
-          return
-        end
-
-        -- Tsserver usually works poorly. Sorry you work with bad languages
-        -- You can remove this line if you know what you're doing :)
-        if client.name == 'tsserver' then
-          return
         end
 
         -- Go Templ formatting
