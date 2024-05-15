@@ -646,7 +646,11 @@ vim.filetype.add({ extension = { templ = 'templ' } })
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
-  eslint = {},
+  eslint = {
+    settings = {
+      format = false,
+    },
+  },
   templ = {},
   gopls = {
     gofumpt = true,

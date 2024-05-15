@@ -7,6 +7,7 @@ local wk = require('which-key')
 -- Quality of life
 vim.keymap.set('n', '<leader>w', '<cmd>w<cr>', { noremap = true, silent = true, desc = '[W]rite Buffer' })
 vim.keymap.set('n', '<leader>q', '<cmd>q<cr>', { noremap = true, silent = true, desc = '[Q]uit Buffer' })
+vim.keymap.set('n', '<leader>E', '<cmd>GoIfErr<cr>', { noremap = true, silent = true, desc = 'Add If[E]rror' })
 
 -- basic navigation
 wk.register({
