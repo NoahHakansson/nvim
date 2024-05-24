@@ -14,3 +14,14 @@ vim.api.nvim_create_autocmd('BufEnter', {
   desc = 'Disable New Line Comment',
   group = myGeneralAutoCmds,
 })
+
+-- bind q to close quickfix
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+  pattern = 'quickfix',
+  callback = function()
+    vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = true, noremap = true, silent = true, desc = 'Close Quickfix' })
+    vim.print('Quickfix keybinds loaded')
+  end,
+  desc = 'Bind q to close quickfix',
+  group = myGeneralAutoCmds,
+})
