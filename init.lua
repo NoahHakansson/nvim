@@ -401,6 +401,19 @@ require('custom.autocommands')
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup({
   defaults = {
+    -- Format path as "file.txt (path\to\file\)"
+    path_display = function(opts, path)
+      local tail = require('telescope.utils').path_tail(path)
+      return string.format('%s (%s)', tail, path)
+    end,
+    layout_strategy = 'vertical',
+    layout_config = {
+      prompt_position = 'top',
+      height = 0.95,
+      width = 0.8,
+      mirror = true,
+      --[[ vertical = { width = 0.95 } ]]
+    },
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -409,6 +422,7 @@ require('telescope').setup({
     },
   },
 })
+vim.cmd('autocmd User TelescopePreviewerLoaded setlocal number')
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -652,6 +666,7 @@ local servers = {
     },
   },
   templ = {},
+  cssls = {},
   gopls = {
     gofumpt = true,
     usePlaceholders = true,
