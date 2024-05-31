@@ -50,7 +50,7 @@ return {
 
         -- (Special case, has no 'format server_capabilities)
         -- Set eslint LSP client to format on save.
-        if client.name == 'eslint' then
+        if client and client.name == 'eslint' then
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
             callback = function()
@@ -66,8 +66,10 @@ return {
         -- Go Templ formatting
         -- If filetype is templ, then we need to use the templ LSP client to format
         -- So we disable the html client formatting capabilities
-        if vim.bo.filetype == 'templ' and client.name == 'html' then
-          client.server_capabilities.documentFormattingProvider = false
+        if vim.bo.filetype == 'templ' and client and client.name == 'html' then
+          if client then
+            client.server_capabilities.documentFormattingProvider = false
+          end
         end
 
         -- Create an autocmd that will run *before* we save the buffer.
@@ -80,12 +82,20 @@ return {
               return
             end
 
+            if client and client.name == 'gopls' then
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            end
+
             -- If no special case, then we can use conform to format
             require('conform').format({
               timeout_ms = 500,
               bufnr = bufnr,
               lsp_fallback = true,
             })
+
+            if client and client.name == 'gopls' then
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            end
           end,
         })
       end,

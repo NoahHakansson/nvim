@@ -30,6 +30,7 @@ function M.config()
       'fugitive',
       'alpha',
       'NvimTree',
+      'neo-tree',
       'lazy',
       'NeogitStatus',
       'Trouble',

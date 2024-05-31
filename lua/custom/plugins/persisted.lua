@@ -15,7 +15,13 @@ function M.config()
     autosave = true, -- automatically save session files when exiting Neovim
     should_autosave = function() -- function to determine if a session should be autosaved
       -- do not autosave if the current filetype is ""(empty buffer), NvimTree or alpha
-      if vim.bo.filetype == '' or vim.bo.filetype == 'NvimTree' or vim.bo.filetype == 'alpha' or vim.bo.filetype == 'NeogitStatus' then
+      if
+        vim.bo.filetype == ''
+        or vim.bo.filetype == 'NvimTree'
+        or vim.bo.filetype == 'neo-tree'
+        or vim.bo.filetype == 'alpha'
+        or vim.bo.filetype == 'NeogitStatus'
+      then
         return false
       end
       return true
@@ -39,12 +45,13 @@ end
 -- persisted autocommands
 local persistedGroup = vim.api.nvim_create_augroup('PersistedHooks', { clear = true })
 
--- close NvimTree and DiffView(git) before saving session
+-- close NvimTree/Neo-tree and DiffView(git) before saving session
 vim.api.nvim_create_autocmd({ 'User' }, {
   pattern = 'PersistedSavePre',
   group = persistedGroup,
   callback = function()
     pcall(vim.cmd, 'NvimTreeClose')
+    pcall(vim.cmd, 'Neotree close')
     pcall(vim.cmd, 'DiffviewClose')
   end,
 })

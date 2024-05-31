@@ -55,40 +55,6 @@ return {
     end,
     cond = conditions.hide_in_width,
   },
-  copilot = {
-    function()
-      local client = require('copilot.client')
-      local copilot_active = client.buf_is_attached(vim.api.nvim_get_current_buf())
-      -- local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
-      -- local copilot_active = false
-      --
-      -- -- look for copilot client
-      -- for _, client in pairs(buf_clients) do
-      --   if client.name == 'copilot' then
-      --     copilot_active = true
-      --   end
-      -- end
-      --
-      if copilot_active then
-        return icons.git.Copilot
-      end
-
-      return ''
-    end,
-    color = function()
-      local api = require('copilot.api')
-      local status = api.status.data.status
-
-      if status == 'InProgress' then
-        return { gui = 'bold', fg = colors.yellow }
-      elseif status == 'Warning' then
-        return { gui = 'bold', fg = colors.red }
-      end
-
-      return { gui = 'bold', fg = colors.green }
-    end,
-    cond = conditions.hide_in_width,
-  },
   lsp = {
     function()
       local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })

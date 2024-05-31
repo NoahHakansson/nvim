@@ -145,6 +145,7 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+    opts = { inlay_hints = { enabled = true } },
   },
 
   {
@@ -284,7 +285,6 @@ require('lazy').setup({
         lualine_x = {
           lualine_components.diagnostics,
           lualine_components.lsp,
-          lualine_components.copilot,
           lualine_components.spaces,
           lualine_components.filetype,
         },
@@ -578,6 +578,26 @@ vim.defer_fn(function()
 end, 0)
 
 -- [[ Configure LSP ]]
+vim.diagnostic.config({
+  -- Set icons for the diagnostic in gutter
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = icons.diagnostics.BoldError,
+      [vim.diagnostic.severity.WARN] = icons.diagnostics.BoldWarning,
+    },
+    -- Highlight entire line for errors
+    -- linehl = {
+    --   [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+    -- },
+    -- Highlight the line number for warnings
+    -- numhl = {
+    --   [vim.diagnostic.severity.WARN] = 'WarningMsg',
+    -- },
+  },
+})
+-- turn on inlay hints
+vim.lsp.inlay_hint.enable(false)
+
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(client, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -592,6 +612,18 @@ local on_attach = function(client, bufnr)
     end
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  -- The following autocommand is used to enable inlay hints in your
+  -- code, if the language server you are using supports them
+  --
+  -- This may be unwanted, since they displace some of your code
+  if vim.lsp.inlay_hint then
+    nmap('<leader>th', function()
+      local enabled = not vim.lsp.inlay_hint.is_enabled()
+      vim.lsp.inlay_hint.enable(enabled)
+      vim.print('Inlay hints ' .. (enabled and 'enabled' or 'disabled'))
+    end, '[T]oggle Inlay [H]ints')
   end
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -723,6 +755,7 @@ local servers = {
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
       -- diagnostics = { disable = { 'missing-fields' } },
+      hint = { enable = true },
     },
   },
   jsonls = {
