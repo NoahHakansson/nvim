@@ -152,6 +152,7 @@ return {
     Tag = ' ',
     Watch = '',
     Smiley = ' ',
+    gopher = '',
     Package = ' ',
     CircuitBoard = ' ',
   },

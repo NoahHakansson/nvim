@@ -5,12 +5,17 @@ local M = {
 }
 function M.config()
   local lint = require('lint')
+
+  -- vim.list_extend(lint.linters.staticcheck.args, {
+  --   '-checks=all,-ST1000,-U1000',
+  -- })
+
   lint.linters_by_ft = {
     markdown = { 'markdownlint' },
     zsh = { 'zsh' },
     yaml = { 'yamllint' },
     json = { 'jsonlint' },
-    -- go = { 'golangcilint' },
+    go = { 'revive' },
     -- typescript = { 'eslint_d' },
     -- typescriptreact = { 'eslint_d' },
     -- javascript = { 'eslint_d' },

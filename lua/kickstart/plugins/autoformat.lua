@@ -83,18 +83,18 @@ return {
             end
 
             if client and client.name == 'gopls' then
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
             end
 
             -- If no special case, then we can use conform to format
             require('conform').format({
               timeout_ms = 500,
               bufnr = bufnr,
-              lsp_fallback = true,
+              lsp_format = 'fallback',
             })
 
             if client and client.name == 'gopls' then
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
             end
           end,
         })

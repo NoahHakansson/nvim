@@ -121,7 +121,7 @@ require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
-  -- 'tpope/vim-fugitive',
+  'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
@@ -129,8 +129,8 @@ require('lazy').setup({
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
-  {
-    -- LSP Configuration & Plugins
+
+  { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
@@ -142,8 +142,19 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
+      -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+      -- used for completion, annotations and signatures of Neovim apis
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = {
+          library = {
+            -- Load luvit types when the `vim.uv` word is found
+            { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+          },
+        },
+      },
+      { 'Bilal2453/luvit-meta', lazy = true },
     },
     opts = { inlay_hints = { enabled = true } },
   },
@@ -236,8 +247,8 @@ require('lazy').setup({
 
         -- Toggles
 
-        require('which-key').register({
-          ['<leader>gt'] = { name = '[G]it [T]oggles', _ = 'which_key_ignore' },
+        require('which-key').add({
+          { '<leader>gt', group = '[G]it [T]oggles' },
         })
         map('n', '<leader>gtb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
         map('n', '<leader>gtd', gs.toggle_deleted, { desc = 'toggle git show deleted' })
@@ -620,7 +631,7 @@ local on_attach = function(client, bufnr)
   -- This may be unwanted, since they displace some of your code
   if vim.lsp.inlay_hint then
     nmap('<leader>th', function()
-      local enabled = not vim.lsp.inlay_hint.is_enabled()
+      local enabled = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
       vim.lsp.inlay_hint.enable(enabled)
       vim.print('Inlay hints ' .. (enabled and 'enabled' or 'disabled'))
     end, '[T]oggle Inlay [H]ints')
@@ -655,22 +666,22 @@ local on_attach = function(client, bufnr)
 end
 
 -- document existing key chains
-require('which-key').register({
+require('which-key').add({
+  { '<leader>r', group = '[R]ename' },
+  { '<leader>s', group = '[S]earch' },
+  { '<leader>g', group = '[G]it' },
+  { '<leader>l', group = '[L]sp' },
+  { '<leader>u', group = '[U]ndoTree' },
   -- ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
   -- ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   -- ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   -- ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
   -- ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-  ['<leader>l'] = { name = '[L]sp', _ = 'which_key_ignore' },
-  ['<leader>u'] = { name = '[U]ndoTree', _ = 'which_key_ignore' },
 })
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work
-require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
+require('which-key').add({
+  { '<leader>', group = 'VISUAL <leader>' },
   -- ['<leader>h'] = { 'Git [H]unk' },
 }, { mode = 'v' })
 
@@ -699,6 +710,7 @@ local servers = {
   },
   templ = {},
   cssls = {},
+  -- golangci_lint_ls = {},
   gopls = {
     gofumpt = true,
     usePlaceholders = true,
@@ -745,10 +757,10 @@ local servers = {
   },
   rust_analyzer = {},
   -- tsserver = {},
-  html = { filetypes = { 'html', 'templ', 'twig', 'hbs' } },
-  htmx = { filetypes = { 'html', 'templ' } },
-  tailwindcss = { filetypes = { 'html', 'templ', 'astro', 'javascript', 'typescript', 'react', 'typescriptreact', 'javascriptreact' } },
-  emmet_ls = { filetypes = { 'html', 'templ', 'astro', 'javascript', 'typescript', 'react', 'typescriptreact', 'javascriptreact' } },
+  html = { filetypes = { 'html', 'templ', 'gotexttmpl', 'twig', 'hbs' } },
+  htmx = { filetypes = { 'html', 'templ', 'gotexttmpl' } },
+  tailwindcss = { filetypes = { 'html', 'templ', 'gotexttmpl', 'astro', 'javascript', 'typescript', 'react', 'typescriptreact', 'javascriptreact' } },
+  emmet_ls = { filetypes = { 'html', 'templ', 'gotexttmpl', 'astro', 'javascript', 'typescript', 'react', 'typescriptreact', 'javascriptreact' } },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -777,9 +789,6 @@ local servers = {
     },
   },
 }
-
--- Setup neovim lua configuration
-require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -852,6 +861,11 @@ cmp.setup({
     end, { 'i', 's' }),
   }),
   sources = {
+    {
+      name = 'lazydev',
+      -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+      group_index = 0,
+    },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },

@@ -10,13 +10,16 @@ vim.keymap.set('n', '<leader>q', '<cmd>q<cr>', { noremap = true, silent = true, 
 vim.keymap.set('n', '<leader>E', '<cmd>GoIfErr<cr>', { noremap = true, silent = true, desc = 'Add If[E]rror' })
 
 -- basic navigation
-wk.register({
-  ['<leader>d'] = { name = '[D]o <C-w>', _ = 'which_key_ignore' },
+wk.add({
+  {
+    { '<leader>d', group = '[D]o <C-w> + More..' },
+  },
 })
 vim.keymap.set('n', '<leader>dh', '<C-w>h', { noremap = true, silent = true, desc = 'move to left window' })
 vim.keymap.set('n', '<leader>dj', '<C-w>j', { noremap = true, silent = true, desc = 'move to bottom window' })
 vim.keymap.set('n', '<leader>dk', '<C-w>k', { noremap = true, silent = true, desc = 'move to top window' })
 vim.keymap.set('n', '<leader>dl', '<C-w>l', { noremap = true, silent = true, desc = 'move to right window' })
+vim.keymap.set('n', '<leader>dt', '<cmd>tabNext<cr>', { noremap = true, silent = true, desc = 'move to next tab (tabNext)' })
 vim.keymap.set('n', '<leader>ds', '<C-w>s', { noremap = true, silent = true, desc = 'split window horizontally' })
 vim.keymap.set('n', '<leader>dv', '<C-w>v', { noremap = true, silent = true, desc = 'split window vertically' })
 vim.keymap.set('n', '<leader>dc', '<C-w>c', { noremap = true, silent = true, desc = 'close window' })
