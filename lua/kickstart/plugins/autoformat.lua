@@ -42,7 +42,7 @@ return {
         -- Create a command `:Format` local to the LSP buffer
         vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
           require('conform').format({
-            timeout_ms = 500,
+            timeout_ms = 1000,
             bufnr = bufnr,
             lsp_fallback = true,
           })
