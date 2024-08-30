@@ -5,9 +5,14 @@
 local icons = require('utils.icons')
 local conditions = require('utils.lualine.conditions')
 local colors = require('utils.lualine.colors')
+local hydra = require('utils.lualine.hydra')
 local num = 0
 
 return {
+  hydra = {
+    'hydra',
+    mode = hydra,
+  },
   branch = {
     'b:gitsigns_head',
     icon = icons.git.Branch,

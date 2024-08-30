@@ -6,10 +6,17 @@ local M = {
 function M.config()
   require('conform').setup({
     notify_on_error = true,
+
+    formatters = {
+      sqlfluff = {
+        args = { 'format', '-' },
+      },
+    },
+
     formatters_by_ft = {
       go = { 'goimports', 'gofumpt', timeout_ms = 2000 },
       lua = { 'stylua' },
-      sql = { 'sqlfmt' },
+      sql = { 'sqlfluff', timeout_ms = 15000 },
       -- Conform can also run multiple formatters sequentially
       python = { 'isort', 'black' },
       css = { 'prettierd', 'prettier' },

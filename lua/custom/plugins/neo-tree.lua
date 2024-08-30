@@ -14,7 +14,7 @@ local M = {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>e', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+    { '<leader>e', ':Neotree reveal toggle<CR>', { desc = 'NeoTree reveal' } },
   },
 }
 

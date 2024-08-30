@@ -284,7 +284,20 @@ require('lazy').setup({
       },
       sections = {
         lualine_a = {
-          'mode',
+          {
+            'mode',
+            cond = function()
+              return not lualine_components.hydra.mode.cond()
+            end,
+          },
+          lualine_components.hydra.mode,
+          -- fmt = function(str)
+          --   if lualine_components.hydra.mode.cond() then
+          --     return lualine_components.hydra.mode.name()
+          --   else
+          --     return str
+          --   end
+          -- end,
         },
         lualine_b = {
           lualine_components.branch,
@@ -869,6 +882,15 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'buffer' },
+  },
+})
+
+-- Setup vim-dadbod
+cmp.setup.filetype({ 'sql' }, {
+  sources = {
+    { name = 'vim-dadbod-completion' },
+    { name = 'buffer' },
   },
 })
 
