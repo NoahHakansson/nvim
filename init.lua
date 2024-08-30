@@ -291,13 +291,6 @@ require('lazy').setup({
             end,
           },
           lualine_components.hydra.mode,
-          -- fmt = function(str)
-          --   if lualine_components.hydra.mode.cond() then
-          --     return lualine_components.hydra.mode.name()
-          --   else
-          --     return str
-          --   end
-          -- end,
         },
         lualine_b = {
           lualine_components.branch,
