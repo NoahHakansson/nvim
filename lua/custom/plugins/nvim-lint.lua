@@ -1,5 +1,4 @@
 local M = {
-
   'mfussenegger/nvim-lint',
   event = { 'BufReadPre', 'BufNewFile' },
 }
@@ -11,7 +10,7 @@ function M.config()
   -- })
 
   lint.linters_by_ft = {
-    markdown = { 'markdownlint' },
+    -- markdown = { 'markdownlint' },
     zsh = { 'zsh' },
     yaml = { 'yamllint' },
     json = { 'jsonlint' },

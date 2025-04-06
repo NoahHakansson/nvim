@@ -21,8 +21,4 @@ function M.config()
   })
 end
 
-vim.keymap.set({ 'n', 'x' }, '<leader>r', function()
-  require('ssr').open()
-end)
-
 return M

@@ -14,10 +14,10 @@ function M.config()
     },
 
     formatters_by_ft = {
-      go = { 'goimports', 'gofumpt', timeout_ms = 2000 },
       lua = { 'stylua' },
       sql = { 'sqlfluff', timeout_ms = 15000 },
       -- Conform can also run multiple formatters sequentially
+      go = { 'goimports', 'gofumpt', timeout_ms = 2000 },
       python = { 'isort', 'black' },
       css = { 'prettierd', 'prettier' },
       scss = { 'prettierd', 'prettier' },
@@ -27,8 +27,8 @@ function M.config()
       jsonc = { 'prettierd', 'prettier' },
       yaml = { 'prettierd', 'prettier' },
       toml = { 'prettierd', 'prettier' },
-      markdown = { 'prettierd', 'prettier' },
-      ['markdown.mdx'] = { 'prettierd', 'prettier' },
+      -- markdown = { 'prettierd', 'prettier' },
+      -- ['markdown.mdx'] = { 'prettierd', 'prettier' },
       graphql = { 'prettierd', 'prettier' },
       handlebars = { 'prettierd', 'prettier' },
 

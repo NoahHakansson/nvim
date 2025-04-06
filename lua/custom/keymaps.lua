@@ -45,3 +45,6 @@ vim.keymap.set('n', '<M-d>', 'viWy:let @"=system("openssl base64 -A -d", @")<cr>
 -- Center next/previous search
 vim.keymap.set('n', 'n', 'nzzzv', { noremap = true, silent = true })
 vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, silent = true })
+
+-- todo-comments
+vim.keymap.set('n', '<leader>st', '<cmd>TodoTelescope<cr>', { noremap = true, silent = true, desc = '[S]earch [T]odos' })

@@ -664,8 +664,8 @@ local on_attach = function(client, bufnr)
   --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   -- end, '[W]orkspace [L]ist Folders')
 
-  -- When using pyright and ruff_lsp, disable hover in favor of Pyright
-  if client.name == 'ruff_lsp' then
+  -- When using pyright and ruff, disable hover in favor of Pyright
+  if client.name == 'ruff' then
     -- Disable hover in favor of Pyright
     client.server_capabilities.hoverProvider = false
   end
@@ -748,7 +748,7 @@ local servers = {
   },
   taplo = {},
   bashls = {},
-  ruff_lsp = {},
+  ruff = {},
   pyright = {
     pyright = {
       -- Using Ruff's import organizer
